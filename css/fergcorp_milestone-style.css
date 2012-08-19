@@ -3,7 +3,7 @@
 .milestone-widget .minute,
 .milestone-widget .second {
 	text-align: right;
-	width: 2em;
+	width: 1.75em;
 }
 .milestone-widget .year {
 	text-align: right;
