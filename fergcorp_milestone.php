@@ -1,13 +1,13 @@
 <?php
 /*
 Plugin Name: Milestone
-Plugin URI: @TODO
-Description: @TODO
-Version: 1.0
+Plugin URI: http://andrewferguson.net/wordpress-plugins/milestone/
+Description: Milestone clone for self hosted WordPress installations. Counts down to a big event and then displays a message!
+Version: 0.9
 Author: Andrew Ferguson
 Author URI: http://www.andrewferguson.net
 
-Milestone for Self Hosted - @TODO
+Milestone for Self Hosted - Milestone clone for self hosted WordPress installations. Counts down to a big event and then displays a message!
 Copyright (c) 2012 Andrew Ferguson
 
 This program is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
-@package Countdown_Timer
+@package Fergcorp_Milestone
 @author Andrew Ferguson
 @since
 @access private
