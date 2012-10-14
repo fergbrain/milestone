@@ -37,6 +37,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
 
+//Via Alex King, http://alexking.org/blog/2011/12/15/wordpress-plugins-and-symlinks
+
+$my_plugin_file = __FILE__;
+
+if (isset($plugin)) {
+	$my_plugin_file = $plugin;
+}
+else if (isset($mu_plugin)) {
+	$my_plugin_file = $mu_plugin;
+}
+else if (isset($network_plugin)) {
+	$my_plugin_file = $network_plugin;
+}
+
+define('MY_PLUGIN_FILE', $my_plugin_file);
+define('MY_PLUGIN_PATH', WP_PLUGIN_DIR.'/'.basename(dirname($my_plugin_file)));
+
 
 /**
  * Widget class for Milestone
@@ -208,7 +225,7 @@ class Fergcorp_Milestone_Widget extends WP_Widget{
 
 function fergcorp_milestone_script()
 {
-	wp_register_style( 'fergcorp-milestone-style', plugins_url( '/css/fergcorp_milestone-style.css', __FILE__ ), array(), '20120208', 'all' );
+	wp_register_style( 'fergcorp-milestone-style', plugins_url( '/css/fergcorp_milestone-style.css', MY_PLUGIN_FILE), array(), '20120208', 'all' );
 	wp_enqueue_style( 'fergcorp-milestone-style' );
 }
 
