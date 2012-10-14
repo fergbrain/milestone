@@ -136,6 +136,39 @@ class Fergcorp_Milestone_Widget extends WP_Widget{
 		
 		return $instance;		
 	}
+	
+	public function calculate_units($eventDiff, $eventDate){
+			
+		if($eventDiff >= 31536000+date("L", $eventDate)*86400){
+			$value = floor($eventDiff/(31536000+date("L", $eventDate)*86400));
+			$unit = _n("year", "years",  $value, "fergcorp_milestone");
+		}
+		elseif($eventDiff >= 86400*date("t", $eventDate) ){
+			$value = floor($eventDiff / ( 86400 * 30 ) );
+			$unit = _n("month", "months",  $value, "fergcorp_milestone");
+		}
+		elseif($eventDiff >= 86400){
+			$value = floor($eventDiff/86400);
+			$unit = _n("day", "days",  $value, "fergcorp_milestone");
+		}
+		elseif($eventDiff >= 3600){
+			$value = floor($eventDiff/3600);
+			$unit = _n("hour", "hours",  $value, "fergcorp_milestone");;
+		}
+		elseif($eventDiff >= 60){	
+			$value =  floor($eventDiff/60);
+			$unit = _n("minute", "minutes",  $value, "fergcorp_milestone");;
+		}
+		else{
+			$value = $eventDiff;
+			$unit = _n("second", "seconds",  $value, "fergcorp_milestone");
+		}
+		
+		return array(	"value" => $value,
+						"unit" => $unit,
+					);
+			
+	}
 		
 	public function widget( $args, $instance ){
 		echo $args['before_widget'];
@@ -158,32 +191,10 @@ class Fergcorp_Milestone_Widget extends WP_Widget{
 		if($eventDiff > 0){
 			echo '<div class="milestone-countdown">';
 			
-		if($eventDiff > 31536000+date("L", $eventDate)*86400){
-			$value = floor($eventDiff/(31536000+date("L", $eventDate)*86400));
-			$unit = _n("year", "years",  $value, "fergcorp_milestone");
-		}
-		elseif($eventDiff > 86400*date("t", $eventDate) ){
-			$value = floor($eventDiff / ( 86400 * 30 ) );
-			$unit = _n("month", "months",  $value, "fergcorp_milestone");
-		}
-		elseif($eventDiff > 86400){
-			$value = floor($eventDiff/86400);
-			$unit = _n("day", "days",  $value, "fergcorp_milestone");
-		}
-		elseif($eventDiff > 3600){
-			$value = floor($eventDiff/3600);
-			$unit = _n("hour", "hours",  $value, "fergcorp_milestone");;
-		}
-		elseif($eventDiff > 60){	
-			$value =  floor($eventDiff/60);
-			$unit = _n("minute", "minutes",  $value, "fergcorp_milestone");;
-		}
-		else{
-			$value = $eventDiff;
-			$unit = _n("second", "seconds",  $value, "fergcorp_milestone");
-		}
-			echo '<span class="difference">' . $value . '</span> ';
-			echo '<span class="label">' . $unit . '</span> ';
+			$calculate_units = $this->calculate_units($eventDiff, $eventDate);
+
+			echo '<span class="difference">' . $calculate_units["value"] . '</span> ';
+			echo '<span class="label">' . $calculate_units["unit"] . '</span> ';
 			echo 'to go.';
 			echo '</div>';
 		}
