@@ -26,11 +26,146 @@ class MilestoneTest extends WP_UnitTestCase {
 		
     }
 
+	public function testUnitCalculationSeconds(){
+		
+		$eventDate = new DateTime();
+		$eventDate->setDate(2015, 1, 31);
+		$eventDate->setTime(12, 30, 0);
+		
+		$time = new DateTime();
+		$time->setDate(2015, 1, 31);
+		$time->setTime(12, 30, 0);
+		
+		for($i = 0; $i < 59; $i++){
+				
+			$time->sub(new DateInterval("PT1S"));
+				
+			$eventDiff = $eventDate->getTimestamp() - $time->getTimestamp();
+			
+			$calculate_units = $this->plugin->calculate_units($eventDiff, $eventDate->getTimestamp());
+			
+			$this->assertLessThanOrEqual(60, $calculate_units["value"]);
+			$this->assertStringStartsWith("second", $calculate_units["unit"]);
+		}
+	}
+	
+		public function testUnitCalculationMinutes(){
+		
+		$eventDate = new DateTime();
+		$eventDate->setDate(2015, 1, 31);
+		$eventDate->setTime(12, 30, 0);
+		
+		$time = new DateTime();
+		$time->setDate(2015, 1, 31);
+		$time->setTime(12, 30, 0);
+		
+		for($i = 0; $i < 59; $i++){
+				
+			$time->sub(new DateInterval("PT1M"));
+				
+			$eventDiff = $eventDate->getTimestamp() - $time->getTimestamp();
+			
+			$calculate_units = $this->plugin->calculate_units($eventDiff, $eventDate->getTimestamp());
+			
+			$this->assertLessThanOrEqual(60, $calculate_units["value"]);
+			$this->assertStringStartsWith("minute", $calculate_units["unit"]);
+		}
+	}
+		
+		public function testUnitCalculationHours(){
+		
+		$eventDate = new DateTime();
+		$eventDate->setDate(2015, 1, 31);
+		$eventDate->setTime(12, 30, 0);
+		
+		$time = new DateTime();
+		$time->setDate(2015, 1, 31);
+		$time->setTime(12, 30, 0);
+		
+		for($i = 0; $i < 23; $i++){
+				
+			$time->sub(new DateInterval("PT1H"));
+				
+			$eventDiff = $eventDate->getTimestamp() - $time->getTimestamp();
+			
+			$calculate_units = $this->plugin->calculate_units($eventDiff, $eventDate->getTimestamp());
+			
+			$this->assertLessThanOrEqual(23, $calculate_units["value"]);
+			$this->assertStringStartsWith("hour", $calculate_units["unit"]);
+		}
+	}
+		
+	public function testUnitCalculationDays(){
+		
+		$eventDate = new DateTime();
+		$eventDate->setDate(2015, 1, 31);
+		$eventDate->setTime(12, 30, 0);
+		
+		$time = new DateTime();
+		$time->setDate(2015, 1, 31);
+		$time->setTime(12, 30, 0);
+		
+		for($i = 1; $i < date("t", $eventDate->getTimestamp()); $i++){
+				
+			$time->sub(new DateInterval("P1D"));
+				
+			$eventDiff = $eventDate->getTimestamp() - $time->getTimestamp();
+			
+			$calculate_units = $this->plugin->calculate_units($eventDiff, $eventDate->getTimestamp());
+			
+			$this->assertLessThanOrEqual($eventDate->getTimestamp(), $calculate_units["value"]);
+			$this->assertStringStartsWith("day", $calculate_units["unit"]);
+		}
+	}
+	
+		public function testUnitCalculationMonths(){
+		
+		$eventDate = new DateTime();
+		$eventDate->setDate(2015, 1, 31);
+		$eventDate->setTime(12, 30, 0);
+		
+		$time = new DateTime();
+		$time->setDate(2015, 1, 31);
+		$time->setTime(12, 30, 0);
+		
+		for($i = 1; $i <= 12; $i++){
+				
+			$time->sub(new DateInterval("P1M"));
+				
+			$eventDiff = $eventDate->getTimestamp() - $time->getTimestamp();
+			
+			$calculate_units = $this->plugin->calculate_units($eventDiff, $eventDate->getTimestamp());
+			
+			$this->assertLessThanOrEqual($eventDate->getTimestamp(), $calculate_units["value"]);
+			$this->assertStringStartsWith("month", $calculate_units["unit"]);
+		}
+	}
+		
+	public function testUnitCalculationYears(){
+		
+		$eventDate = new DateTime();
+		$eventDate->setDate(2015, 1, 31);
+		$eventDate->setTime(12, 30, 0);
+		
+		$time = new DateTime();
+		$time->setDate(2015, 1, 31);
+		$time->setTime(12, 30, 0);
+		
+		for($i = 0; $i <= 10; $i++){
+				
+			$time->sub(new DateInterval("P1Y"));
+				
+			$eventDiff = $eventDate->getTimestamp() - $time->getTimestamp();
+			
+			$calculate_units = $this->plugin->calculate_units($eventDiff, $eventDate->getTimestamp());
 
-    public function testTrueStillEqualsTrue() {
-        $this->assertTrue(true);
-    }
+			$this->assertLessThanOrEqual($eventDate->getTimestamp(), $calculate_units["value"]);
+			$this->assertStringStartsWith("year", $calculate_units["unit"]);
+		}
+	}
+	
 
+	
 	
 	public function testUpdate(){
 
