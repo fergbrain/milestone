@@ -1,5 +1,5 @@
 <?php
-require_once('../fergcorp_milestone.php');
+require_once('fergcorp_milestone.php');
 
 /**
  * Milestone Tests
