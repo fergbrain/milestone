@@ -36,7 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 */
 
-
 //Via Alex King, http://alexking.org/blog/2011/12/15/wordpress-plugins-and-symlinks
 
 $my_plugin_file = __FILE__;
@@ -53,6 +52,8 @@ else if (isset($network_plugin)) {
 
 define('MY_PLUGIN_FILE', $my_plugin_file);
 define('MY_PLUGIN_PATH', WP_PLUGIN_DIR.'/'.basename(dirname($my_plugin_file)));
+
+load_plugin_textdomain('fergcorp_milestone', false, basename( dirname( MY_PLUGIN_FILE ) ) . '/lang' );
 
 
 /**
@@ -200,7 +201,7 @@ class Fergcorp_Milestone_Widget extends WP_Widget{
 		echo '<div class="milestone-content">';
 		echo '	<div class="milestone-header">';
 		echo '		<strong class="event">' . $instance['event'] . '</strong>';
-		echo '		<span class="date">' . date("F jS, Y", $eventDate) . '</span>';
+		echo '		<span class="date">' . date_i18n( get_option('date_format'), $eventDate) . '</span>';
 		echo '	</div>';
 		
 		$eventDiff = $eventDate - time();
@@ -212,7 +213,7 @@ class Fergcorp_Milestone_Widget extends WP_Widget{
 
 			echo '<span class="difference">' . $calculate_units["value"] . '</span> ';
 			echo '<span class="label">' . $calculate_units["unit"] . '</span> ';
-			echo 'to go.';
+			echo __('to go.', 'fergcorp_milestone');
 			echo '</div>';
 		}
 		else{
