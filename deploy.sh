@@ -18,11 +18,11 @@ SVNUSER="fergbrain" # your svn username
 
 # Let's begin...
 echo ".........................................."
-echo 
+echo
 echo "Preparing to deploy wordpress plugin"
-echo 
+echo
 echo ".........................................."
-echo 
+echo
 
 # Check version in readme.txt is the same as plugin file
 NEWVERSION1=`grep "^Stable tag" $GITPATH/readme.txt | awk -F' ' '{print $3}'`
@@ -46,7 +46,7 @@ echo "Pushing latest commit to origin, with tags"
 git push origin master
 git push origin master --tags
 
-echo 
+echo
 echo "Creating local copy of SVN repo ..."
 svn co $SVNURL $SVNPATH
 
@@ -58,6 +58,16 @@ svn propset svn:ignore "deploy.sh
 README.md
 .git
 .gitignore" "$SVNPATH/trunk/"
+
+if [ -d $SVNPATH/trunk/assets ]; then
+    echo "Moving to SVN/trunk/assets to SVN/assets and commiting new assets"
+    #if [ ! -d $SVNPATH/assets ]; then mkdir $SVNPATH/assets; fi
+    mv -f $SVNPATH/trunk/assets $SVNPATH
+    echo "Changing directory to SVN/assets and committing to assets"
+    cd $SVNPATH
+    svn status assets| grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
+    svn commit --username=$SVNUSER -m "Adding assets"
+fi
 
 echo "Changing directory to SVN and committing to trunk"
 cd $SVNPATH/trunk/
