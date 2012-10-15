@@ -3,7 +3,7 @@
 Plugin Name: Milestone
 Plugin URI: http://andrewferguson.net/wordpress-plugins/milestone/
 Description: Milestone clone for self hosted WordPress installations. Counts down to a big event and then displays a message!
-Version: 0.9
+Version: 1.0
 Author: Andrew Ferguson
 Author URI: http://www.andrewferguson.net
 
