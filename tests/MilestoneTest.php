@@ -25,6 +25,98 @@ class MilestoneTest extends WP_UnitTestCase {
         $this->plugin = $GLOBALS['milestone'];
 		
     }
+	
+	public function testForm(){
+			
+		$instance = "";
+		$this->expectOutputRegex("/<div class=\"milestone-widget\">(.*?)<p>(.*?)<\/p>(.*?)<p>(.*?)<\/p>(.*?)<fieldset>(.*?)<\/fieldset>(.*?)<p>(.*?)<\/p>(.*?)<\/div>/s");
+		$this->plugin->form($instance);
+		
+		$instance = array(
+						'title' => "My Title",
+						'event' => "My Event",
+						'month' => 1,
+						'day' => 31,
+						'year' => 2015,
+						'hour' => 12,
+						'minute' => 30,
+						'message' => "Happy Birthday!"
+						);
+								
+		$this->expectOutputRegex("/<div class=\"milestone-widget\">(.*?)<p>(.*?)<\/p>(.*?)<p>(.*?)<\/p>(.*?)<fieldset>(.*?)<\/fieldset>(.*?)<p>(.*?)<\/p>(.*?)<\/div>/s");
+		$this->plugin->form($instance);
+		
+		
+	}
+	
+	public function testWidget(){
+		
+		$instance = array(
+				'title' => "My Title",
+				'event' => "My Event",
+				'month' => 1,
+				'day' => 31,
+				'year' => 2015,
+				'hour' => 12,
+				'minute' => 30,
+				'message' => "Happy Birthday!"
+				);
+				
+		$args = array(
+				'name' => 'Main Sidebar',
+				'id' =>'sidebar-1',
+				'description' => '',
+				'class' => '',
+				'before_widget' => '<aside id="fergcorp_milestone-2" class="widget widget_fergcorp_milestone">',
+				'after_widget' => '</aside>',
+				'before_title' => '<h3 class="widget-title">',
+				'after_title' => '</h3>',
+				'widget_id' => 'fergcorp_milestone-2',
+				'widget_name' => 'Milestone',
+				);
+							
+		$this->expectOutputRegex("/<aside id=\"fergcorp_milestone-2\" class=\"widget widget_fergcorp_milestone\">(.*?)<h3(.*?)>(.*?)<\/h3><div (.*?)>(.*?)<div (.*?)>(.*?)<strong (.*?)>(.*?)<\/strong>(.*?)<span (.*?)>(.*?)<\/span>(.*?)<\/div>(.*?)<div (.*?)><span (.*?)>(.*?)<\/span>(.*?)<span (.*?)>(.*?)<\/span>(.*?)<\/div>(.*?)<\/div>(.*?)<\/aside>/s");
+		$this->plugin->widget($args, $instance);
+		
+		
+				$instance = array(
+				'title' => "My Title",
+				'event' => "My Event",
+				'month' => 1,
+				'day' => 31,
+				'year' => 2010,
+				'hour' => 12,
+				'minute' => 30,
+				'message' => "Happy Birthday!"
+				);
+				
+		$args = array(
+				'name' => 'Main Sidebar',
+				'id' =>'sidebar-1',
+				'description' => '',
+				'class' => '',
+				'before_widget' => '<aside id="fergcorp_milestone-2" class="widget widget_fergcorp_milestone">',
+				'after_widget' => '</aside>',
+				'before_title' => '<h3 class="widget-title">',
+				'after_title' => '</h3>',
+				'widget_id' => 'fergcorp_milestone-2',
+				'widget_name' => 'Milestone',
+				);
+							
+		$this->expectOutputRegex("/<aside id=\"fergcorp_milestone-2\" class=\"widget widget_fergcorp_milestone\">(.*?)<h3(.*?)>(.*?)<\/h3><div (.*?)>(.*?)<div (.*?)>(.*?)<strong (.*?)>(.*?)<\/strong>(.*?)<span (.*?)>(.*?)<\/span>(.*?)<\/div>(.*?)<div (.*?)><span (.*?)>(.*?)<\/span>(.*?)<span (.*?)>(.*?)<\/span>(.*?)<\/div>(.*?)<\/div>(.*?)<\/aside>/s");
+		$this->plugin->widget($args, $instance);
+		
+		
+		
+	}
+	
+	public function testScript(){
+		fergcorp_milestone_script();
+	}
+	
+	public function testRegisterWidget(){
+		fergcorp_milestone_register_widgets();
+	}
 
 	public function testUnitCalculationSeconds(){
 		
@@ -163,9 +255,6 @@ class MilestoneTest extends WP_UnitTestCase {
 			$this->assertStringStartsWith("year", $calculate_units["unit"]);
 		}
 	}
-	
-
-	
 	
 	public function testUpdate(){
 
