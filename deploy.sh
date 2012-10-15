@@ -57,12 +57,13 @@ echo "Ignoring github specific files and deployment script"
 svn propset svn:ignore "deploy.sh
 README.md
 .git
-.gitignore" "$SVNPATH/trunk/"
+.gitignore
+assets" "$SVNPATH/trunk/"
 
 if [ -d $SVNPATH/trunk/assets ]; then
     echo "Moving to SVN/trunk/assets to SVN/assets and commiting new assets"
-    #if [ ! -d $SVNPATH/assets ]; then mkdir $SVNPATH/assets; fi
-    mv -f $SVNPATH/trunk/assets $SVNPATH
+    if [ ! -d $SVNPATH/assets ]; then mkdir $SVNPATH/assets; fi
+    cp -f $SVNPATH/trunk/assets/* $SVNPATH/assets/.
     echo "Changing directory to SVN/assets and committing to assets"
     cd $SVNPATH
     svn status assets| grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
