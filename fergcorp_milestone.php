@@ -215,6 +215,7 @@ class Fergcorp_Milestone_Widget extends WP_Widget{
 			echo '<span class="label">' . $calculate_units["unit"] . '</span> ';
 			echo __('to go.', 'fergcorp_milestone');
 			echo '</div>';
+			echo '</div><!--milestone-content-->';
 		}
 		else{
 			echo '	<div class="milestone-message">' . $instance['message'] . '</div>';
